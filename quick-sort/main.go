@@ -1,3 +1,4 @@
+// Example code for https://guo-sj.github.io/algorithm/2022/04/16/quick-sort.html
 package main
 
 import "fmt"
