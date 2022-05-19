@@ -55,9 +55,20 @@ func bfs() {
 	}
 }
 
+func dfsRecursive(tree *Tree) {
+	if tree == nil {
+		return
+	}
+	fmt.Println(tree.data)
+	dfsRecursive(tree.leftNode)
+	dfsRecursive(tree.rightNode)
+}
+
 func main() {
 	fmt.Println("--------------DFS--------------")
 	dfs()
+	fmt.Println("--------------DFS Recursive----")
+	dfsRecursive(&tree)
 	fmt.Println("--------------BFS--------------")
 	bfs()
 }
