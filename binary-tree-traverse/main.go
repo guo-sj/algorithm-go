@@ -53,9 +53,29 @@ func preOrder(tree *Tree) {
 	if tree == nil {
 		return
 	}
-	fmt.Println(tree.Val)
+	fmt.Printf("%s ", tree.Val)
 	preOrder(tree.Left)
 	preOrder(tree.Right)
+}
+
+func preOrderLoop(tree *Tree) {
+	if tree == nil {
+		return
+	}
+	stack := []*Tree{}
+	stack = append(stack, tree)
+	for len(stack) != 0 {
+		newRoot := stack[len(stack)-1]
+		fmt.Printf("%s ", newRoot.Val)
+		stack = stack[:len(stack)-1]
+		if newRoot.Right != nil {
+			stack = append(stack, newRoot.Right)
+		}
+		if newRoot.Left != nil {
+			stack = append(stack, newRoot.Left)
+		}
+	}
+	fmt.Println()
 }
 
 func inOrder(tree *Tree) {
@@ -63,11 +83,11 @@ func inOrder(tree *Tree) {
 		return
 	}
 	inOrder(tree.Left)
-	fmt.Println(tree.Val)
+	fmt.Printf("%s ", tree.Val)
 	inOrder(tree.Right)
 }
 
-func inOrderNotRecursive(tree *Tree) {
+func inOrderLoop(tree *Tree) {
 	if tree == nil {
 		return
 	}
@@ -80,7 +100,7 @@ func inOrderNotRecursive(tree *Tree) {
 			node = node.Left
 		} else {
 			newRoot := stack[len(stack)-1]
-			fmt.Println(newRoot.Val)
+			fmt.Printf("%s ", newRoot.Val)
 			stack = stack[:len(stack)-1]
 			if newRoot.Right != nil {
 				stack = append(stack, newRoot.Right)
@@ -90,6 +110,7 @@ func inOrderNotRecursive(tree *Tree) {
 			}
 		}
 	}
+	fmt.Println()
 }
 
 func postOrder(tree *Tree) {
@@ -98,15 +119,56 @@ func postOrder(tree *Tree) {
 	}
 	postOrder(tree.Left)
 	postOrder(tree.Right)
-	fmt.Println(tree.Val)
+	fmt.Printf("%s ", tree.Val)
+}
+
+func postOrderLoop(tree *Tree) {
+	if tree == nil {
+		return
+	}
+	stack := []*Tree{}
+	stack = append(stack, tree)
+	node := tree.Left
+	searchedNode := make(map[*Tree]bool)
+	for len(stack) != 0 {
+		if node != nil {
+			stack = append(stack, node)
+			node = node.Left
+		} else {
+			newRoot := stack[len(stack)-1]
+			if searchedNode[newRoot] || newRoot.Right == nil {
+				fmt.Printf("%s ", newRoot.Val)
+				stack = stack[:len(stack)-1]
+				node = nil
+				continue
+			}
+			if newRoot.Right != nil {
+				searchedNode[newRoot] = true
+				stack = append(stack, newRoot.Right)
+				node = newRoot.Right.Left
+			}
+		}
+	}
+	fmt.Println()
 }
 
 func main() {
-	/*fmt.Println("===========Pre-Order===========")
-	preOrder(tree)*/
-	fmt.Println("===========In-Order===========")
-	inOrderNotRecursive(tree)
-	//inOrder(tree)
-	/*fmt.Println("===========Post-Order===========")
-	postOrder(tree)*/
+	fmt.Println("===========Pre-Order===========")
+	fmt.Printf("%-12s: ", "Recursive")
+	preOrder(tree)
+	fmt.Println()
+	fmt.Printf("%-12s: ", "Loop")
+	preOrderLoop(tree)
+	fmt.Println("===========In-Order============")
+	fmt.Printf("%-12s: ", "Recursive")
+	inOrder(tree)
+	fmt.Println()
+	fmt.Printf("%-12s: ", "Loop")
+	inOrderLoop(tree)
+	fmt.Println("===========Post-Order==========")
+	fmt.Printf("%-12s: ", "Recursive")
+	postOrder(tree)
+	fmt.Println()
+	fmt.Printf("%-12s: ", "Loop")
+	postOrderLoop(tree)
 }
