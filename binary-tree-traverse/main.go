@@ -1,13 +1,13 @@
 package main
 
 /*
-		a
-	   / \
-	  b   c
-	 / \  /\
+        a
+       / \
+      b   c
+     / \  /\
     d  e f  g
       / \
-	 h   i
+     h   i
 Pre-order: a, b, d, e, h, i, c, f, g
 In-order: d, b, h, e, i, a, f, c, g
 Post-order: d, h, i, e, b, f, g, c, a
